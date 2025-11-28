@@ -1,9 +1,12 @@
+import id from 'login'
+
+
 const messageForm = document.querySelector('#message-form');
 const messagesUl = document.querySelector('.messages-ul');
 const input = document.querySelector('.message-input');
 
 
-const ws = new WebSocket('ws://localhost:8000/ws/123');
+const ws = new WebSocket(`ws://localhost:8000/ws/${id}`);
 
 const newMessage = (msg) => {
     messagesUl.innerHTML += `<li>${msg.data}</li>`;

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-
+from typing import List
 
 class UserSchema(BaseModel):
     username: str
@@ -14,6 +14,10 @@ class UserID(BaseModel):
 class UserPublic(UserID):
     username: str
     email: EmailStr
+
+
+class ListUsersSchema(BaseModel):
+    users: List[UserPublic]
 
 
 class PublicMessageSchema(BaseModel):
