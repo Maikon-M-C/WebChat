@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import WebSocket
-from Schemas import *
+
 
 class ConectionManager:
     def __init__(self):

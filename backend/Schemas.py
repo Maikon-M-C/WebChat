@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import List
 
+
 class UserSchema(BaseModel):
     username: str
     email: EmailStr
