@@ -1,7 +1,7 @@
 const loginForm = document.querySelector('#login-form');
 const user = document.querySelector('#username');
 const email = document.querySelector('#email');
-export let id = 0;
+let id = 0;
 
 
 loginForm.addEventListener('submit', async (e) => {
@@ -21,6 +21,8 @@ loginForm.addEventListener('submit', async (e) => {
 
     const data = await response.json();
     id = data.id;
-    console.log('Logged in with ID:', id);
 
+    localStorage.setItem('userId', id);
+    window.location.href = './index.html';
+    
 });
