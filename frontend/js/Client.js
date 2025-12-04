@@ -34,8 +34,6 @@ messageForm.addEventListener('submit', async (e) => {
     
 })
 
-
-
 const getUsers = async () => {
     const gUsers = await fetch('http://localhost:8000/users/')
     const users = await gUsers.json();
