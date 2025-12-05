@@ -2,7 +2,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from Schemas import *
 from manager import ConectionManager
 from fastapi.middleware.cors import CORSMiddleware
-
+from database.controler import Controler
 
 app = FastAPI(name='Web Chat')
 
@@ -19,19 +19,21 @@ app.add_middleware(
 )
 
 manager  = ConectionManager()
-users = []  #temporario
+controler = Controler()
 
 
 @app.post('/login/', response_model=UserPublic)
 def login(user: UserSchema):
-     user = UserPublic(**user.model_dump() ,id=len(users) +1)
-     users.append(user)
+     controler.create_user(user.model_dump())
+     user = UserPublic(**user.model_dump())
+
      return user
 
 @app.get('/users/', response_model=ListUsersSchema)
 def get_users():
+     usuarios = controler.read_all_users()
+     users = [UserPublic(**usuario.to_dict()) for usuario in usuarios]
      return ListUsersSchema(users=users)
-
 
 
 ##WebSocket Endpoint

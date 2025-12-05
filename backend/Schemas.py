@@ -7,15 +7,9 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str
 
-
-class UserID(BaseModel):
-    id: int
-
-
-class UserPublic(UserID):
+class UserPublic(BaseModel):
     username: str
     email: EmailStr
-
 
 class ListUsersSchema(BaseModel):
     users: List[UserPublic]

@@ -1,4 +1,4 @@
-from db import conn
+from .db import conn
 
 
 class Controler:
@@ -11,8 +11,11 @@ class Controler:
         result = self.conn.collection(self.collection_name).add(data)
         return result
 
-    def get_user(self):
-        result = self.conn.collection(self.collection_name).where('alice', '==', '').stream() 
+    def get_user(self, query=None):
+        if query is None:
+            result = self.conn.collection(self.collection_name).stream()
+        else:
+            result = self.conn.collection(self.collection_name).where(*query).stream()
         return result
 
     def update_user(self, user_id, data):
@@ -30,11 +33,3 @@ class Controler:
     def read_all_users(self):
         result = self.conn.collection(self.collection_name).stream()
         return result
-
-
-controler = Controler()
-usuarios = controler.get_user()
-
-for usuario in usuarios:
-    r = controler.read_user(usuario.id)
-    print(f'{usuario.id} => {r.to_dict()}')
