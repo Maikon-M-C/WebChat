@@ -8,7 +8,14 @@ class Controler:
         self.collection_name = 'user'
 
     def create_user(self, data):
+        exist1 = self.get_user(('email', '==', data['email']))
+        exist2 = self.get_user(('username', '==', data['username']))
+
+        if list(exist1) or list(exist2):
+            return None
+
         result = self.conn.collection(self.collection_name).add(data)
+        result = self.read_user(result[1].id)
         return result
 
     def get_user(self, query=None):

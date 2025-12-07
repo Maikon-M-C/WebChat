@@ -22,12 +22,25 @@ manager  = ConectionManager()
 controler = Controler()
 
 
-@app.post('/login/', response_model=UserPublic)
-def login(user: UserSchema):
-     controler.create_user(user.model_dump())
-     user = UserPublic(**user.model_dump())
+@app.post('/register/', response_model=UserPublic | None)
+def register(user: UserSchema):
+     result = controler.create_user(user.model_dump())
 
-     return user
+     return result
+
+@app.post('/login/', response_model=UserPublic | None)
+def login(user: UserLogin):
+     query1 = controler.get_user(('email', '==', user.email))
+     query2 = controler.get_user(('password', '==', user.password))
+
+     intersection = set(query1).intersection(set(query2))
+
+     user = [user_.to_dict() for user_ in intersection]
+
+     if not user:
+          return None
+     
+     return user[0]
 
 @app.get('/users/', response_model=ListUsersSchema)
 def get_users():
