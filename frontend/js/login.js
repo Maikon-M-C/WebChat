@@ -1,7 +1,6 @@
 const loginForm = document.querySelector('#login-form');
-const user = document.querySelector('#username');
 const email = document.querySelector('#email');
-let id = 0;
+const password = document.querySelector('#password');
 
 
 loginForm.addEventListener('submit', async (e) => {
@@ -13,16 +12,14 @@ loginForm.addEventListener('submit', async (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: user.value,
             email: email.value,
-            password: 'password' // temporary
+            password: password.value
         })
     });
 
     const data = await response.json();
-    id = data.id;
-
-    localStorage.setItem('userId', id);
+    console.log(data);
+    localStorage.setItem('username', data.username);
     window.location.href = './index.html';
     
 });

@@ -18,7 +18,15 @@ class UserLogin(BaseModel):
 class ListUsersSchema(BaseModel):
     users: List[UserPublic]
 
+class MessageSchema(BaseModel):
+    username: str
+    message: str
 
 class PublicMessageSchema(BaseModel):
-    user_id: int
+    username: str
     message: str
+
+class PrivateMessageSchema(BaseModel):
+    username: str
+    message: str
+    from_username: str

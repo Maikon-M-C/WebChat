@@ -36,7 +36,6 @@ def login(user: UserLogin):
      intersection = set(query1).intersection(set(query2))
 
      user = [user_.to_dict() for user_ in intersection]
-
      if not user:
           return None
      
@@ -50,18 +49,16 @@ def get_users():
 
 
 ##WebSocket Endpoint
-@app.websocket('/ws/{user_id}')
-async def websocket_endpoint(websocket: WebSocket, user_id: int):
+@app.websocket('/ws/{username}')
+async def websocket_endpoint(websocket: WebSocket, username: str):
     await manager.connect(websocket)
-    await manager.broadcast(f'{user_id} se conectou.')
+    await manager.broadcast(username)
 
     try:
          while True:
               recv = await websocket.receive_text()
-              data: str = f'{user_id}: {recv}'
-              await manager.broadcast(data)
+              await manager.broadcast(recv)
 
     except WebSocketDisconnect:
-         manager.disconnect(websocket)
-         await manager.broadcast(f'{user_id} deixou o chat.')
+         await manager.broadcast(username)
 

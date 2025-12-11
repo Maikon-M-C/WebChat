@@ -3,27 +3,27 @@ const messagesUl = document.querySelector('.messages-ul');
 const input = document.querySelector('.message-input');
 
 let usersList = document.querySelector('.users-list');
-let userId = localStorage.getItem('userId') || 0;
+let username;
+let ws;
 
 window.addEventListener('DOMContentLoaded', () => {
-    const Id = localStorage.getItem('userId');
+    const user = localStorage.getItem('username');
+    
+    if (user) {
+        username = user;
+        ws = new WebSocket(`ws://localhost:8000/ws/${username}`);
+        ws.onmessage = newMessage;
 
-    if (Id) {
-        console.log("ID do usuário:", Id);
-        userId = Id;
+        console.log("username:", username);
         
     } else {
         window.location.href = './login.html';
     }
 });
 
-const ws = new WebSocket(`ws://localhost:8000/ws/${userId}`);
-
 const newMessage = (msg) => {
     messagesUl.innerHTML += `<li>${msg.data}</li>`;
 }
-
-ws.onmessage = newMessage;
 
 messageForm.addEventListener('submit', async (e) => {
     e.preventDefault();
